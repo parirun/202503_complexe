@@ -22,13 +22,17 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
+	- name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6BE4ACFC0BC043E3870DF5923E24108D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1A09DA46AEAA47EF9DBD02759E1438AA }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0D5ABAA1B3A94F61BE42CBCE6158CA74 }}
     - name: Deploy to Azure App Service
       env:
         AZURE_WEBAPP_NAME: "projet7api21"  # Remplacez par le nom de votre Web App Azure
         AZURE_RESOURCE_GROUP: "projet7_api"  # Remplacez par le nom de votre groupe de ressources
         AZURE_APP_SERVICE_PLAN: "projet7simple (B1: 1)"  # Remplacez par le nom de votre Plan de Service
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       run: |
         az login --service-principal -u ${{ secrets.AZUREAPPSERVICE_CLIENTID_6BE4ACFC0BC043E3870DF5923E24108D }} -p ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0D5ABAA1B3A94F61BE42CBCE6158CA74 }} --tenant ${{ secrets.AZUREAPPSERVICE_TENANTID_1A09DA46AEAA47EF9DBD02759E1438AA }}
         az webapp up --name $AZURE_WEBAPP_NAME --resource-group $AZURE_RESOURCE_GROUP --runtime "PYTHON:3.9"
