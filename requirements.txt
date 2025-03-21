@@ -1,0 +1,6 @@
+fastapi
+torch
+transformers
+azure-storage-blob
+gunicorn
+uvicorn
